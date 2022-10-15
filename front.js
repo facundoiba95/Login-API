@@ -132,8 +132,8 @@ const addNewUser = async e => {
     const usernameValue = newUSer__username.value.trim()
     const emailValue = newUser__email.value.trim();
     const usuarios = await requestApi();
-
-    //aca iba nuevouser
+    
+//la validacion se hace con la API, ya que si es con el local no todos los dispositivos podran hacer la validacion.
     if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
         message_fail.textContent= "Este usuario ya se encuentra registrado!";
         message_failTimmer();
