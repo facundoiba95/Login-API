@@ -134,8 +134,8 @@ const addNewUser = async e => {
     const usuarios = await requestApi();
     
 //la validacion se hace con la API, ya que si es con el local no todos los dispositivos podran hacer la validacion.
-    //  if(!usuarios.length || usuarios.length){
-        //   alert('usuarios vacio');
+     if(!usuarios.length || usuarios.length){
+          alert('usuarios vacio');
         if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
             message_fail.textContent= "Este usuario ya se encuentra registrado!";
             message_failTimmer();
@@ -157,7 +157,7 @@ const addNewUser = async e => {
             saveLocalStorage(nuevoUser)
         }
 
-    
+     }
 }
 //Se oculta formulario LOGIN y se muestra newUser
 const mostrarNewUser = e => {
