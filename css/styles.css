@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300&family=Anton&family=Archivo:wght@200&family=Bungee+Spice&family=Comfortaa:wght@300&family=Lato:wght@300;400;700&family=Lobster&family=Nabla&family=Open+Sans:wght@300&family=Plus+Jakarta+Sans:wght@200;300&family=Poppins:wght@300&family=Quantico&family=Roboto:wght@100;300&family=Rubik&family=Source+Sans+Pro:wght@300&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Rubik";
+}
+body{
+    background-color: rgb(30, 30, 30);
+    color:white;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+.container-login, .container-newUser{
+    border: 2px solid yellowgreen;
+    border-radius: 10px;
+    width: 280px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s; 
+}
+.message-newUser{
+    text-align: center;
+}
+.message-error{
+    color:red;
+    font-size: 1rem;
+}
+#form_login, #form_newUser{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+.user, .password, .newUser__password,.newUser__repeatPassword, .newUser__username,.newUser__email{
+    width: 180px;
+    height: 30px;
+    border-radius: 5px;
+}
+.btnIngresar,.newUser__submit{
+    width: 120px;
+    height: 25px;
+    cursor: pointer;
+}
+.link-createUser{
+    font-size: 1rem;
+    color:white;
+}
+
+/* NEW USER*/
+/* hay propiedades heredadas de LOGIN*/
+
+.container-newUser{
+    border:2px solid yellow;
+    padding-top: 70px;
+    padding-bottom: 20px;
+    position: relative;
+    margin-top: 2rem;
+   
+}
+#form_newUser{
+    gap:25px;
+    
+}
+.container_name,.container_password, .container_email{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container_password{
+    gap:5px;
+}
+
+.message-okay{
+position: absolute;
+top:20px;
+font-size: 1.1rem;
+}
+.message-fail{
+    position:absolute;
+    top:15px;
+    text-align: center;
+}
+.message-password{
+    text-align: center;
+}
+
+
+

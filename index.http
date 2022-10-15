@@ -1,0 +1,10 @@
+POST http://localhost:3000/user 
+    headers: {
+        
+Content-Type: "application/json"
+    },
+    body: {
+        "hola": 123,
+        "chau": 12333
+    }
+

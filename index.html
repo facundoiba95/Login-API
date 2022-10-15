@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+            <div class="container-login">
+                <form id="form_login">
+                    <input type="text" class="user" placeholder="Ingresa tu usuario ..." required>
+                    <input type="password" class="password" placeholder="Ingresa tu contraseña ..." required>
+                    <input type="submit" class="btnIngresar" value="Ingresar">
+                    <small><a href="" class="link-createUser">Crear Usuario</a></small>
+                </form>
+                <small class="message-error"></small>
+            </div>
+
+            <h2 class="message-newUser" style="display: none;">Bienvenido! Ingresa los siguientes datos para crear tu cuenta !</h2>
+            <div class="container-newUser" style="display: none;">
+                <h3 class="message-okay"></h3>
+                <h3 class="message-fail"></h3>
+                <form id="form_newUser" >
+                <div class="container_name">
+                    <label for="newUser__username">Nombre de usuario: </label>
+                    <input type="text" class="newUser__username" id="newUser__username" required>
+                </div>
+                <div class="container_password">
+                    <label for="newUser__password">Contraseña: </label>
+                    <input type="password" class="newUser__password" id="newUser__password" required>
+                    <label for="newUser__repeatPassword">Repetir contraseña: </label>
+                    <input type="password" class="newUser__repeatPassword" id="newUser__repeatPassword" required>
+                    <small class="message-password"></small>
+                </div>
+                <div class="container_email">
+                    <label for="newUser__email">Email: </label>
+                    <input type="email" class="newUser__email" id="newUser__email" required>
+                </div>
+                <button type="submit" class="newUser__submit">Crear Usuario</button>
+            </form>
+            <small class="message-error" ></small>
+            </div>
+
+            
+            <div class="container-userProfile" style="display: none;"></div>
+    </div>
+    <script src="front.js"></script>
+</body>
+</html>
