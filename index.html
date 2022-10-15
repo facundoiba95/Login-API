@@ -9,14 +9,16 @@
 </head>
 <body>
     <div class="container">
+        <small class="message_profile_okay"></small>
+
             <div class="container-login">
+                <small class="message_profile_error"></small>
                 <form id="form_login">
                     <input type="text" class="user" placeholder="Ingresa tu usuario ..." required>
                     <input type="password" class="password" placeholder="Ingresa tu contraseña ..." required>
                     <input type="submit" class="btnIngresar" value="Ingresar">
                     <small><a href="" class="link-createUser">Crear Usuario</a></small>
                 </form>
-                <small class="message-error"></small>
             </div>
 
             <h2 class="message-newUser" style="display: none;">Bienvenido! Ingresa los siguientes datos para crear tu cuenta !</h2>
@@ -30,9 +32,9 @@
                 </div>
                 <div class="container_password">
                     <label for="newUser__password">Contraseña: </label>
-                    <input type="password" class="newUser__password" id="newUser__password" required>
+                    <input type="password" class="newUser__password" id="newUser__password" placeholder="Minuscula, mayuscula,numero,simbolo" required>
                     <label for="newUser__repeatPassword">Repetir contraseña: </label>
-                    <input type="password" class="newUser__repeatPassword" id="newUser__repeatPassword" required>
+                    <input type="password" class="newUser__repeatPassword" id="newUser__repeatPassword" placeholder="Minuscula, mayuscula,numero,simbolo" required>
                     <small class="message-password"></small>
                 </div>
                 <div class="container_email">
@@ -41,7 +43,7 @@
                 </div>
                 <button type="submit" class="newUser__submit">Crear Usuario</button>
             </form>
-            <small class="message-error" ></small>
+            <a href="#" class="irAinicio" onclick="mostrarLogindesdeNewUser()">Ir a Inicio</a>
             </div>
 
             

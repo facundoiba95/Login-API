@@ -23,20 +23,14 @@ body{
     border: 2px solid yellowgreen;
     border-radius: 10px;
     width: 280px;
-    height: 400px;
+    height: 420px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: 0.3s; 
+    transition: all 0.3s; 
 }
-.message-newUser{
-    text-align: center;
-}
-.message-error{
-    color:red;
-    font-size: 1rem;
-}
+
 #form_login, #form_newUser{
     display: flex;
     flex-direction: column;
@@ -98,5 +92,98 @@ font-size: 1.1rem;
     text-align: center;
 }
 
+/*ESTILOS DE USERPROFILE*/
+.container-userProfile{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid yellowgreen;
+    border-radius: 10px;
+    padding:20px;
+ }
+ .userProfile{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     gap:20px;
 
+ }
+ #form_img_profile{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     gap:10px;
+ }
+ .title_profile{
+    font-size: 2rem;
+    letter-spacing: 1px;
+ }
+ #input_img_profile{
+    width: 200px;
+    height: 25px;
+    border-radius: 7px;
+    padding-left:8px;
+ }
+ .img_profile{
+     width: 350px;
+     height: 350px;
+     object-fit: cover;
+     border-radius: 50%;
+     padding:5px;
+     background-color: rgb(255, 225, 0);
+ }
+ .message-newUser{
+     text-align: center;
+ }
+ .message-error{
+     color:red;
+     font-size: 1rem;
+ }
+ .irAinicio, .irAinicioProfile{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color:yellow;
+ }
+ .irAinicio:hover, .irAinicioProfile:hover {
+   color:yellowgreen;
+ }
 
+ /*BUTTONS*/
+ .btnIngresar{
+    text-align: center;
+    background-color: yellow;
+    border-radius: 20px;
+    width: 100px;
+    height: 30px;
+    font-weight: 500;
+    font-size: 0.9rem;
+ }
+ 
+ .newUser__submit{
+    text-align: center;
+    background-color: yellow;
+    border-radius: 20px;
+    width: 140px;
+    height: 30px;
+    font-weight: 500;
+    font-size: 0.9rem;
+ }
+ 
+ .btnImagen{
+    text-align: center;
+    background-color: yellow;
+    border-radius: 20px;
+    width: 140px;
+    height: 30px;
+    font-weight: 500;
+    font-size: 0.9rem;
+ }
+ .message_profile_error{
+    margin-bottom: 20px;
+    font-size: 1rem;
+    letter-spacing: 0.7px;
+    text-align: center;
+ }

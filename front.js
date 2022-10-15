@@ -24,6 +24,7 @@ const newUser__email = document.querySelector('.newUser__email')
 const message_okay = document.querySelector('.message-okay')
 const message_fail = document.querySelector('.message-fail')
 const btnSubmitNewUser = document.querySelector('.newUser__submit')
+const irAinicio = document.querySelector('.irAinicio')
 
 // variables de userProfile
 const container_userProfile = document.querySelector('.container-userProfile');
@@ -57,6 +58,12 @@ const message_failTimmer =()=> {
         form_newUser.reset()
     },3000)
 }
+const mostrarLogindesdeNewUser =()=>{
+    container_newUser.style.display = "none"
+    container_login.style.display = "flex";
+    message_newUser.style.display="none"
+}
+
 
 //VALIDACIONES de Password, si se validan, retorna la contraseña validada.
 const validarPassword = e => {
@@ -101,7 +108,7 @@ const validarPassword = e => {
                 message_okay.style.color="rgb(47, 255, 54)";
                 message_okay.textContent= "Usuario creado correctamente!"
                 message_userOkayTimmer();
-                message_okay.style.display="block";  
+                message_okay.style.display="block";
                 return passwordValue;
             }
 
@@ -134,7 +141,6 @@ const addNewUser = async e => {
             },
             body: JSON.stringify(nuevoUser),
         })
-
         saveLocalStorage(nuevoUser)
     }
 }
@@ -160,7 +166,11 @@ const requestApi = async () => {
     }
 }
 
+
 const iniciarSesion = async e => {
+    const message_profile_okay = document.querySelector('.message_profile_okay')
+    const message_profile_error = document.querySelector('.message_profile_error')
+    message_profile_error.style.color='red';
     e.preventDefault();
     const userValue = user.value.trim();
     const passwordValue = password.value.trim();
@@ -169,16 +179,14 @@ const iniciarSesion = async e => {
     
     if(usuariosLogin = usuarios.filter(usuario => usuario.username === userValue)){
         if(!usuariosLogin.length) {
-            alert('No se encontro usuario');
+            message_profile_error.innerHTML = 'No existe este usuario!'
             return;
         }
         if(usuariosLogin[0].password === passwordValue){
-        //aca va una funcion que muestra el perfil del usuario que inicio sesion.
-            alert('Se inicio sesion !');
-            cargarPerfil(usuariosLogin)
+            cargarPerfil(usuariosLogin);
             return;
         }else {
-            alert('Contraseña incorrecta');
+            message_profile_error.innerHTML = 'Contraseña incorrecta!'
             return;
         }
     } 
@@ -196,7 +204,8 @@ const createHTMLuserProfile = array => {
                     </div>
                     <h2 class="username_profile">Username: ${array[0].username}</h2>
                     <h2 class="email_profile">Email: ${array[0].email}</h2>
-                
+                    <a href="#" class="irAinicioProfile" onclick="mostrarLogindesdeProfile()">Ir a Inicio</a>
+
                 </div> 
     `
 }
@@ -204,11 +213,16 @@ const rendercreateHTMLuserProfile = array => {
     container_userProfile.innerHTML = createHTMLuserProfile(array);
 }
 const cargarPerfil = async array => {
+    const message_profile_okay = document.querySelector('.message_profile_okay')
     container_login.style.display = "none";
-    container_userProfile.style.display = "flex";
-    rendercreateHTMLuserProfile(array)
-
+    message_profile_okay.innerHTML='Iniciando sesion ...'
+    setTimeout(()=>{
+        container_userProfile.style.display = "flex";
+        message_profile_okay.style.display="none"
+        rendercreateHTMLuserProfile(array)
+    },2000)
 }
+
 
 //esta funcion carga la imagen segun el usuario que se inicie sesion y sube la imagen a la api.
 //es llamada atraves de atributo OnClick en la clase "btnImagen"
@@ -243,10 +257,13 @@ const cargarImagen = async () => {
     saveLocalStorage(perfilUsuarioMapeado[0])
     
 }
-
+const mostrarLogindesdeProfile =()=>{
+    container_userProfile.style.display="none"
+    container_login.style.display = "flex";
+}
 
 const init = () => {
-    //eventos para newUser
+//eventos para newUser
 form_newUser.addEventListener('submit', addNewUser)
 linkCreateUser.addEventListener('click', mostrarNewUser)
 message_password.style.color="red"
