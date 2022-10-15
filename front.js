@@ -4,6 +4,15 @@
 
  */
 
+/*                               ATENCIONNN    !!!!                 
+ se puede crear un mismo usuario desde diferentes dispositivos!!!! esto es porque no se consulta a la api antes de crear uno nuevo,
+  sino que se consulta al localstorage !!!!, consultar a la api si existe un usuario con el mismo username !!*/
+
+
+
+
+
+
 
 //variables de login
 const user = document.querySelector('.user') //compartida en userProfile
@@ -122,8 +131,10 @@ const addNewUser = async e => {
     const passwordValue= newUser__password.value.trim();
     const usernameValue = newUSer__username.value.trim()
     const emailValue = newUser__email.value.trim();
+    const usuarios = await requestApi();
 
-    if(nuevoUser.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
+    //aca iba nuevouser
+    if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
         message_fail.textContent= "Este usuario ya se encuentra registrado!";
         message_failTimmer();
         message_fail.style.display="block"
