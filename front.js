@@ -134,26 +134,30 @@ const addNewUser = async e => {
     const usuarios = await requestApi();
     
 //la validacion se hace con la API, ya que si es con el local no todos los dispositivos podran hacer la validacion.
-    if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
-        message_fail.textContent= "Este usuario ya se encuentra registrado!";
-        message_failTimmer();
-        message_fail.style.display="block"
-       return;
-    } else if(typeof validarPassword(e).toString()){
-        nuevoUser = [... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]
+    //  if(!usuarios.length || usuarios.length){
+        //   alert('usuarios vacio');
+        if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
+            message_fail.textContent= "Este usuario ya se encuentra registrado!";
+            message_failTimmer();
+            message_fail.style.display="block"
+           return;
+        } else if(typeof validarPassword(e).toString()){
+            nuevoUser = [... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]
+    
+            newUser__password.style.border="none"
+            newUser__repeatPassword.style.border="none"
+           
+            await fetch('https://api-login-users.herokuapp.com/user', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(nuevoUser),
+            })
+            saveLocalStorage(nuevoUser)
+        }
 
-        newUser__password.style.border="none"
-        newUser__repeatPassword.style.border="none"
-       
-        await fetch('https://api-login-users.herokuapp.com/user', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(nuevoUser),
-        })
-        saveLocalStorage(nuevoUser)
-    }
+    
 }
 //Se oculta formulario LOGIN y se muestra newUser
 const mostrarNewUser = e => {
@@ -188,7 +192,7 @@ const iniciarSesion = async e => {
     const usuarios = await requestApi();
     let usuariosLogin = [];
     
-    if(usuariosLogin = usuarios.filter(usuario => usuario.username === userValue)){
+    if( usuarios.filter(usuario => usuario.username === userValue)){
         if(!usuariosLogin.length) {
             message_profile_error.innerHTML = 'No existe este usuario!'
             return;
