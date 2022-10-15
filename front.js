@@ -221,6 +221,7 @@ const cargarPerfil = async array => {
         message_profile_okay.style.display="none"
         rendercreateHTMLuserProfile(array)
     },2000)
+    message_profile_okay.style.display="block"
 }
 
 
