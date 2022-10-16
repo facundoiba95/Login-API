@@ -139,7 +139,7 @@ const addNewUser = async e => {
                  newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
                            
-                await fetch('http://localhost:3000/user/new', {
+                await fetch('https://api-login-users.herokuapp.com/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -163,7 +163,7 @@ const addNewUser = async e => {
                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
               
-                await fetch('http://localhost:3000/user/new', {
+                await fetch('https://api-login-users.herokuapp.com/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -191,7 +191,7 @@ const mostrarNewUser = e => {
 //FUNCIONES PARA LOGIN- usuario ya registrado.
 const requestApi = async () => {
     try {
-        const urlBase = `http://localhost:3000/user`;
+        const urlBase = `https://api-login-users.herokuapp.com/user`;
         const conexion = await fetch(urlBase);
         const json = await conexion.json();
         let arrayRecortado = json.flat().map(usuario => usuario)
@@ -281,13 +281,8 @@ const cargarImagen = async () => {
            return user;;
         }
     })
- 
-    /*
-EL ARRAY MAPEADO DEVUELVE 3 ARRAYS CON LOS OBJETOS MODIFICADOS
-
-
-*/
-    await fetch(`http://localhost:3000/user`,{
+    
+    await fetch(`https://api-login-users.herokuapp.com/user`,{
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
