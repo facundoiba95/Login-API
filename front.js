@@ -42,9 +42,7 @@ const container_userProfile = document.querySelector('.container-userProfile');
 // FUNCIONES PARA NEWUSER !!!!
 const message = document.querySelector('.message-error')
 //Array donde se guardan los usuarios nuevos y ya registrados
-const saveLocalStorage = array => {
-    localStorage.setItem('usuariosLocal', JSON.stringify(array))
-}
+
 
 //TIMERS para ocultar mensajes de alerta !
 const message_passwordTimmer = () => {
@@ -126,7 +124,7 @@ const validarPassword = e => {
 //FUNCION PARA AGREGAR NUEVO USUARIO
 const addNewUser = async e => {
     e.preventDefault();
-    let nuevoUser = JSON.parse(localStorage.getItem('usuariosLocal')) || [];
+    let nuevoUser = [];
 
     const passwordValue= newUser__password.value.trim();
     const usernameValue = newUSer__username.value.trim()
@@ -136,21 +134,23 @@ const addNewUser = async e => {
 //la validacion se hace con la API, ya que si es con el local no todos los dispositivos podran hacer la validacion.
      if(!usuarios.length){
         if(typeof validarPassword(e).toString()){
-                nuevoUser = [... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]
-        
-                newUser__password.style.border="none"
+                nuevoUser = JSON.stringify([... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]);
+                              
+                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
-               
-                await fetch('https://api-login-users.herokuapp.com/user', {
+                           
+                await fetch('http://localhost:3000/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(nuevoUser),
+                    // mode: "no-cors",
+                    body: nuevoUser,
                 })
-                saveLocalStorage(nuevoUser)
+                return;
             }
-        } else if (usuarios.length){
+        } else if(usuarios.length){
+            console.log(usuarios)
             if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
                 message_fail.textContent= "Este usuario ya se encuentra registrado!";
                 message_failTimmer();
@@ -158,19 +158,21 @@ const addNewUser = async e => {
                return;
             }
             if(typeof validarPassword(e).toString()){
-                nuevoUser = [... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]
+                nuevoUser = JSON.stringify([... nuevoUser,{id: usuarios.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}])
         
                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
-               
-                await fetch('https://api-login-users.herokuapp.com/user', {
+              
+                await fetch('http://localhost:3000/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(nuevoUser),
+                    // mode: "no-cors",
+                    body: nuevoUser,
                 })
-                saveLocalStorage(nuevoUser)
+                return;
+              
             }
         }
       
@@ -189,11 +191,11 @@ const mostrarNewUser = e => {
 //FUNCIONES PARA LOGIN- usuario ya registrado.
 const requestApi = async () => {
     try {
-        const urlBase = `https://api-login-users.herokuapp.com/user`;
+        const urlBase = `http://localhost:3000/user`;
         const conexion = await fetch(urlBase);
         const json = await conexion.json();
-        console.log(json)
-        return json;
+        let arrayRecortado = json.flat().map(usuario => usuario)
+        return arrayRecortado;
     } catch (error) {
         console.log(error)
     }
@@ -266,29 +268,33 @@ const cargarImagen = async () => {
     const imgProfile = input_img_profile.value.trim()
     form_img_profile.innerHTML = `<img src="${imgProfile}" alt="Not Found" class="img_profile">`
     
-    let perfilUsuario = JSON.parse(localStorage.getItem('usuariosLocal')) || [];
+    let perfilUsuario = [];
     let usuarios = await requestApi();
 
     perfilUsuario = usuarios.filter(usuario => usuario.username === user.value)
-    console.log(perfilUsuario)
-
+    
     perfilUsuarioMapeado = usuarios.map(user => {
         if(user.username === perfilUsuario[0].username){
             user.image = imgProfile
-            return usuarios;
+            return user;
         } else {
-           return usuarios;
+           return user;;
         }
     })
+ 
+    /*
+EL ARRAY MAPEADO DEVUELVE 3 ARRAYS CON LOS OBJETOS MODIFICADOS
 
-    await fetch(`https://api-login-users.herokuapp.com/user`,{
+
+*/
+    await fetch(`http://localhost:3000/user`,{
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(perfilUsuarioMapeado[0])
+        body: JSON.stringify(perfilUsuarioMapeado)
     })
-    saveLocalStorage(perfilUsuarioMapeado[0])
+    
     
 }
 const mostrarLogindesdeProfile =()=>{
