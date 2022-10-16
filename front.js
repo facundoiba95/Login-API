@@ -3,17 +3,6 @@
  En la funcion requestApi, se hace un fetch tipo GET la API para traer los usuarios creados en la funcion addNewUser
 
  */
-
-/*                               ATENCIONNN    !!!!                 
- se puede crear un mismo usuario desde diferentes dispositivos!!!! esto es porque no se consulta a la api antes de crear uno nuevo,
-  sino que se consulta al localstorage !!!!, consultar a la api si existe un usuario con el mismo username !!*/
-
-
-
-
-
-
-
 //variables de login
 const user = document.querySelector('.user') //compartida en userProfile
 const password = document.querySelector('.password') //compartida en userProfile
@@ -150,7 +139,7 @@ const addNewUser = async e => {
                 return;
             }
         } else if(usuarios.length){
-            console.log(usuarios)
+            
             if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
                 message_fail.textContent= "Este usuario ya se encuentra registrado!";
                 message_failTimmer();
@@ -281,7 +270,7 @@ const cargarImagen = async () => {
            return user;;
         }
     })
-    
+
     await fetch(`https://api-login-users.herokuapp.com/user`,{
         method: "PUT",
         headers: {
