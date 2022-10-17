@@ -188,7 +188,6 @@ const requestApi = async () => {
         const conexion = await fetch(urlBase);
         const json = await conexion.json();
         let arrayRecortado = await json.flat().map(usuario => usuario)
-        console.log(arrayRecortado)
         return arrayRecortado;
     } catch (error) {
         console.log(error)
