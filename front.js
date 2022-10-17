@@ -27,6 +27,13 @@ const irAinicio = document.querySelector('.irAinicio')
 // variables de userProfile
 const container_userProfile = document.querySelector('.container-userProfile');
 
+//FUNCION PARA INDICAR EL TIEMPO ACTUAL 
+let fecha = new Date();
+let fechadeAltaUsuario = new Date().toLocaleString(undefined,{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric',minute:'numeric', second:'numeric' })
+
+/////////////////
+
+
 
 // FUNCIONES PARA NEWUSER !!!!
 const message = document.querySelector('.message-error')
@@ -73,33 +80,33 @@ const validarPassword = e => {
     if(passwordValue == ''){
         message_password.innerHTML = 'El campo esta vacio !'
         message_passwordTimmer()
-        return;
+        return false;
     }
     if(!passwordValue.match(lowerCase)){
                message_password.innerHTML = 'Debe ingresar minuscula';
                message_passwordTimmer();
                message_password.style.display="block";
-               return;
+               return false;
             } else if(!passwordValue.match(upperCase)){
                 message_password.innerHTML = 'Debe ingresar mayuscula';
                 message_passwordTimmer();
                 message_password.style.display="block";
-                return;
+                return false;
             } else if(!passwordValue.match(number)){
                 message_password.innerHTML = 'Debe ingresar numero'
                 message_passwordTimmer();
                 message_password.style.display="block";
-                return;
+                return false;
             } else if(!passwordValue.match(symbol)){
                 message_password.innerHTML = 'Debe ingresar simbolo'
                 message_passwordTimmer();
                 message_password.style.display="block";
-                return;
+                return false;
             } else if(passwordValue !== repeatPasswordValue){
                 message_password.textContent= "Las contraseñas no coinciden! Porfavor, verifícalas.";
                 message_passwordTimmer();
                 message_password.style.display="block";
-                return;
+                return false;
             }else {
                 message_okay.style.color="rgb(47, 255, 54)";
                 message_okay.textContent= "Usuario creado correctamente!"
@@ -122,10 +129,9 @@ const addNewUser = async e => {
     
 //la validacion se hace con la API, ya que si es con el local no todos los dispositivos podran hacer la validacion.
      if(!usuarios.length){
-        if(typeof validarPassword(e).toString()){
-                nuevoUser = JSON.stringify([... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}]);
-                              
-                 newUser__password.style.border="none"
+        if(!validarPassword(e)=== false){
+                nuevoUser = JSON.stringify([... nuevoUser,{id: nuevoUser.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: '',altaUsuario: fechadeAltaUsuario,ultimoLogin:''}]);             
+                newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
                            
                 await fetch('https://api-login-users.herokuapp.com/user/new', {
@@ -139,16 +145,15 @@ const addNewUser = async e => {
                 return;
             }
         } else if(usuarios.length){
-            
             if(usuarios.some(user => user.username.toLowerCase() === usernameValue.toLowerCase())){
                 message_fail.textContent= "Este usuario ya se encuentra registrado!";
                 message_failTimmer();
                 message_fail.style.display="block"
                return;
             }
-            if(typeof validarPassword(e).toString()){
-                nuevoUser = JSON.stringify([... nuevoUser,{id: usuarios.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: ''}])
-        
+            if(!validarPassword(e)===false){
+                nuevoUser = [... nuevoUser,{id: usuarios.length +1, username: usernameValue, password:passwordValue, email: emailValue, image: '',altaUsuario: fechadeAltaUsuario,ultimoLogin:''}];
+                let verificarPass = JSON.stringify(nuevoUser)
                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
               
@@ -158,16 +163,15 @@ const addNewUser = async e => {
                         "Content-Type": "application/json"
                     },
                     // mode: "no-cors",
-                    body: nuevoUser,
+                    body: verificarPass,
                 })
                 return;
               
-            }
+            } 
         }
-      
-
-     
 }
+
+
 //Se oculta formulario LOGIN y se muestra newUser
 const mostrarNewUser = e => {
     e.preventDefault();
@@ -183,21 +187,21 @@ const requestApi = async () => {
         const urlBase = `https://api-login-users.herokuapp.com/user`;
         const conexion = await fetch(urlBase);
         const json = await conexion.json();
-        let arrayRecortado = json.flat().map(usuario => usuario)
+        let arrayRecortado = await json.flat().map(usuario => usuario)
+        console.log(arrayRecortado)
         return arrayRecortado;
     } catch (error) {
         console.log(error)
     }
 }
 
-
-const iniciarSesion = async e => {
-    const message_profile_okay = document.querySelector('.message_profile_okay')
+const iniciarSesion = async (e) => {
+    e.preventDefault();
     const message_profile_error = document.querySelector('.message_profile_error')
     message_profile_error.style.color='red';
-    e.preventDefault();
     const userValue = user.value.trim();
     const passwordValue = password.value.trim();
+
     const usuarios = await requestApi();
     let usuariosLogin = [];
     
@@ -206,14 +210,25 @@ const iniciarSesion = async e => {
             message_profile_error.innerHTML = 'No existe este usuario!'
             return;
         }
-        if(usuariosLogin[0].password === passwordValue){
-            cargarPerfil(usuariosLogin);
-            return;
-        }else {
-            message_profile_error.innerHTML = 'Contraseña incorrecta!'
-            return;
-        }
+
+        ultimoLogin = fechadeAltaUsuario.toLocaleString()
+        const passwordValueJSON = JSON.stringify({pass: passwordValue, username: userValue, lastLogin: ultimoLogin})
+    
+        let autenticar = await fetch('https://api-login-users.herokuapp.com/user/autenticacion',{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: passwordValueJSON
+    });
+    
+    autenticar.status === 200 ? 
+      cargarPerfil(usuariosLogin)
+      :
+      message_profile_error.innerHTML = 'Contraseña incorrecta!'
+
     } 
+
 }
 
 const createHTMLuserProfile = array => {
@@ -228,7 +243,7 @@ const createHTMLuserProfile = array => {
                     </div>
                     <h2 class="username_profile">Username: ${array[0].username}</h2>
                     <h2 class="email_profile">Email: ${array[0].email}</h2>
-                    <a href="#" class="irAinicioProfile" onclick="mostrarLogindesdeProfile()">Ir a Inicio</a>
+                    <a href="index.html" class="irAinicioProfile" onclick="mostrarLogindesdeProfile()">Ir a Inicio</a>
 
                 </div> 
     `
@@ -246,6 +261,8 @@ const cargarPerfil = async array => {
         rendercreateHTMLuserProfile(array)
     },2000)
     message_profile_okay.style.display="block"
+
+    
 }
 
 
@@ -285,8 +302,7 @@ const mostrarLogindesdeProfile =()=>{
     container_userProfile.style.display="none"
     container_login.style.display = "flex";
 }
-
-const init = () => {
+ init = () => {
 //eventos para newUser
 form_newUser.addEventListener('submit', addNewUser)
 linkCreateUser.addEventListener('click', mostrarNewUser)
@@ -299,6 +315,7 @@ form_login.addEventListener('submit', iniciarSesion)
 
 //eventos para userProfile
 //el evento de cargar imagen se ejecuta atraves del atributo HTML "onclick" con la funcion, "cargarImagen()"
+
 }
 
 init();
