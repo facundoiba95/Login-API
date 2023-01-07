@@ -27,7 +27,7 @@ const irAinicio = document.querySelector('.irAinicio')
 // variables de userProfile
 const container_userProfile = document.querySelector('.container-userProfile');
 
-//FUNCION PARA INDICAR EL TIEMPO ACTUAL 
+//VARIABLES PARA INDICAR EL TIEMPO ACTUAL 
 let fecha = new Date();
 let fechadeAltaUsuario = new Date().toLocaleString(undefined,{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'numeric',minute:'numeric', second:'numeric' })
 
@@ -134,7 +134,7 @@ const addNewUser = async e => {
                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
                            
-                await fetch('https://api-login-users.herokuapp.com/user/new', {
+                await fetch('https://api-login-production-0e46.up.railway.app/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -157,7 +157,7 @@ const addNewUser = async e => {
                 newUser__password.style.border="none"
                 newUser__repeatPassword.style.border="none"
               
-                await fetch('https://api-login-users.herokuapp.com/user/new', {
+                await fetch('https://api-login-production-0e46.up.railway.app/user/new', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -184,7 +184,7 @@ const mostrarNewUser = e => {
 //FUNCIONES PARA LOGIN- usuario ya registrado.
 const requestApi = async () => {
     try {
-        const urlBase = `https://api-login-users.herokuapp.com/user`;
+        const urlBase = `https://api-login-production-0e46.up.railway.app/user`;
         const conexion = await fetch(urlBase);
         const json = await conexion.json();
         let arrayRecortado = await json.flat().map(usuario => usuario)
@@ -213,7 +213,7 @@ const iniciarSesion = async (e) => {
         ultimoLogin = fechadeAltaUsuario.toLocaleString()
         const passwordValueJSON = JSON.stringify({pass: passwordValue, username: userValue, lastLogin: ultimoLogin})
     
-        let autenticar = await fetch('https://api-login-users.herokuapp.com/user/autenticacion',{
+        let autenticar = await fetch('https://api-login-production-0e46.up.railway.app/user/autenticacion',{
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -233,7 +233,7 @@ const iniciarSesion = async (e) => {
 const createHTMLuserProfile = array => {
     const imagen = array[0].image ? array[0].image : `./user.jpg`
     return `
-                <div class="userProfile">
+                <div class="userProfile" id="userProfile">
                     <h3 class="title_profile">Bienvenido ${array[0].username}!</h3>
                     <div id="form_img_profile">
                        <img src="${imagen}" alt="" class="img_profile">
@@ -266,7 +266,7 @@ const cargarPerfil = async array => {
 
 
 //esta funcion carga la imagen segun el usuario que se inicie sesion y sube la imagen a la api.
-//es llamada atraves de atributo OnClick en la clase "btnImagen"
+//es llamada atraves de atributo OnClick en la clase "btnImagen" de createHTMLUserProfile().
 const cargarImagen = async () => {
     const input_img_profile = document.getElementById('input_img_profile');
     const form_img_profile = document.getElementById('form_img_profile');
@@ -278,6 +278,7 @@ const cargarImagen = async () => {
 
     perfilUsuario = usuarios.filter(usuario => usuario.username === user.value)
     
+    //se agrega la imagen a la api
     perfilUsuarioMapeado = usuarios.map(user => {
         if(user.username === perfilUsuario[0].username){
             user.image = imgProfile
@@ -287,7 +288,7 @@ const cargarImagen = async () => {
         }
     })
 
-    await fetch(`https://api-login-users.herokuapp.com/user`,{
+    await fetch(`https://api-login-production-0e46.up.railway.app/user`,{
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -301,6 +302,9 @@ const mostrarLogindesdeProfile =()=>{
     container_userProfile.style.display="none"
     container_login.style.display = "flex";
 }
+
+
+
  init = () => {
 //eventos para newUser
 form_newUser.addEventListener('submit', addNewUser)

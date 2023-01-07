@@ -31,6 +31,9 @@ body{
     align-items: center;
     transition: all 0.3s; 
 }
+.container-login{
+    position:relative;
+}
 
 #form_login, #form_newUser{
     display: flex;
@@ -39,6 +42,10 @@ body{
     align-items: center;
     gap:10px;
 }
+#form_login{
+    margin-top:10px;
+}
+
 .user, .password, .newUser__password,.newUser__repeatPassword, .newUser__username,.newUser__email{
     width: 180px;
     height: 30px;
@@ -52,6 +59,7 @@ body{
 .link-createUser{
     font-size: 1rem;
     color:white;
+    margin-top: 20px;
 }
 
 /* NEW USER*/
@@ -183,29 +191,44 @@ font-size: 1.1rem;
     font-size: 0.9rem;
  }
  .message_profile_error{
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+    margin-top: 30px;
     font-size: 1rem;
     letter-spacing: 0.7px;
     text-align: center;
+ 
+    
+    
  }
  @media (max-width:480px){
     .container-login, .container-newUser{
         width: 280px;
-        height: 420px;
+        height: 470px;
+
        
     }
-
+    #form_login{
+        margin-top:70px;
+    }
     .container-userProfile{
         width: 100%;
         height: 100%;
         margin:20px;
         text-align: center;
      }
+     .container-login h2{
+    position: absolute;
+    top:60px;
+}
      .img_profile{
-        width: 250px;
-        height:250px;
+        width: 220px;
+        height:220px;
     }
     .container{
         margin:20px;
+    }
+    .message_profile_error{
+        position:absolute;
+        top:100px;
     }
 }
